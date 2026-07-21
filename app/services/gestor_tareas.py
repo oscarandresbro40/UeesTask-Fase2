@@ -128,6 +128,12 @@ class GestorTareas:
         nota: float,
         retroalimentacion: str,
     ) -> Entrega:
+        """Implementa CU-08 para que un docente califique una entrega.
+
+        Valida la nota, la autorización del docente y que la entrega no haya
+        sido calificada previamente; luego registra la retroalimentación, cambia
+        el estado a CALIFICADA y notifica al estudiante.
+        """
         if docente is None:
             raise ValueError("El docente es obligatorio")
         if entrega_id is None or entrega_id <= 0:
