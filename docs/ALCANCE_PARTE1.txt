@@ -1,0 +1,18 @@
+UEESTASK — FASE 2, PARTE 1
+
+Casos de uso implementados:
+- CU-04 Crear tarea.
+- CU-07 Entregar tarea.
+- CU-08 Calificar entrega.
+
+Elementos incluidos:
+- Arquitectura por capas.
+- Modelos de dominio.
+- Repositorio en memoria.
+- Controlador.
+- Servicio de negocio.
+- Patrón Observer.
+- Notificaciones automáticas.
+- Demostración funcional en main.py.
+
+La suite de pruebas unitarias se incorporará en la Parte 2.

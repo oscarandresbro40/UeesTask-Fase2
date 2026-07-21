@@ -1,0 +1,24 @@
+UEESTASK — FASE 2, PARTE 2
+SUITE INICIAL DE PRUEBAS UNITARIAS
+
+Instalación:
+    pip install -r requirements.txt
+
+Ejecución:
+    pytest
+
+Pruebas incluidas:
+- CU-04 Crear tarea.
+- CU-07 Entregar tarea.
+- CU-08 Calificar entrega.
+- Validación de permisos.
+- Validación de fechas.
+- Validación de ponderación.
+- Validación del rango de calificación.
+- Prevención de entregas duplicadas.
+- Prevención de doble calificación.
+- Verificación del patrón Observer.
+- Verificación de notificaciones.
+
+Resultado esperado:
+    18 passed
