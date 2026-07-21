@@ -22,6 +22,11 @@ class GestorTareas:
         ponderacion: float,
         recursos: list[str] | None = None,
     ) -> Tarea:
+        """Implementa CU-04 para que un docente cree una tarea en un curso asignado.
+
+        Valida datos obligatorios, fecha futura, ponderación y autorización del
+        docente; luego guarda la tarea y notifica a los estudiantes del curso.
+        """
         # Código base deliberadamente extenso para el diagnóstico de Fase 2.
         if docente is None:
             raise ValueError("El docente es obligatorio")
