@@ -77,6 +77,12 @@ class GestorTareas:
         archivo: str,
         comentario: str = "",
     ) -> Entrega:
+        """Implementa CU-07 para registrar la entrega de una tarea.
+
+        Verifica existencia de la tarea, matrícula del estudiante, fecha límite,
+        archivo adjunto y posibles entregas duplicadas; luego guarda la entrega
+        y genera una notificación.
+        """
         if estudiante is None:
             raise ValueError("El estudiante es obligatorio")
         if tarea_id is None or tarea_id <= 0:
