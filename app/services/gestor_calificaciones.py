@@ -11,9 +11,9 @@ from app.utils.validador_dominio import ValidadorDominio
 class GestorCalificaciones:
     """Responsable del caso de uso CU-08: calificar una entrega."""
 
-    def __init__(self, repositorio, servicio_notificaciones) -> None:
+    def __init__(self, repositorio, publicador_eventos) -> None:
         self.repositorio = repositorio
-        self.servicio_notificaciones = servicio_notificaciones
+        self.publicador_eventos = publicador_eventos
 
     def calificar_entrega(
         self,
@@ -63,10 +63,8 @@ class GestorCalificaciones:
         entrega.estado = EstadoEntrega.CALIFICADA
         self.repositorio.guardar_entrega(entrega)
 
-        if self.servicio_notificaciones not in entrega.observadores:
-            entrega.agregar_observador(self.servicio_notificaciones)
-
-        entrega.notificar_observadores(
+        self.publicador_eventos.publicar(
+            entrega,
             "ENTREGA_CALIFICADA",
             {
                 "nota": nota,

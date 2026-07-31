@@ -8,9 +8,9 @@ from app.utils.validador_dominio import ValidadorDominio
 class GestorEntregas:
     """Responsable del caso de uso CU-07: entregar una tarea."""
 
-    def __init__(self, repositorio, servicio_notificaciones) -> None:
+    def __init__(self, repositorio, publicador_eventos) -> None:
         self.repositorio = repositorio
-        self.servicio_notificaciones = servicio_notificaciones
+        self.publicador_eventos = publicador_eventos
         self.siguiente_entrega_id = 1
 
     def entregar_tarea(
@@ -52,9 +52,9 @@ class GestorEntregas:
         )
         self.siguiente_entrega_id += 1
 
-        entrega.agregar_observador(self.servicio_notificaciones)
         self.repositorio.guardar_entrega(entrega)
-        entrega.notificar_observadores(
+        self.publicador_eventos.publicar(
+            entrega,
             "ENTREGA_REGISTRADA",
             {
                 "archivo": entrega.archivo,

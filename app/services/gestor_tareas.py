@@ -3,6 +3,7 @@ from datetime import datetime
 from app.models.entrega import Entrega
 from app.models.tarea import Tarea
 from app.models.usuario import Docente, Estudiante
+from app.notifications.publicador_eventos import PublicadorEventos
 from app.services.gestor_calificaciones import GestorCalificaciones
 from app.services.gestor_entregas import GestorEntregas
 from app.utils.constantes import (
@@ -16,11 +17,11 @@ from app.utils.validador_dominio import ValidadorDominio
 class GestorTareas:
     def __init__(self, repositorio, servicio_notificaciones) -> None:
         self.repositorio = repositorio
-        self.servicio_notificaciones = servicio_notificaciones
+        self.publicador_eventos = PublicadorEventos(servicio_notificaciones)
         self.siguiente_tarea_id = 1
-        self.gestor_entregas = GestorEntregas(repositorio, servicio_notificaciones)
+        self.gestor_entregas = GestorEntregas(repositorio, self.publicador_eventos)
         self.gestor_calificaciones = GestorCalificaciones(
-            repositorio, servicio_notificaciones
+            repositorio, self.publicador_eventos
         )
 
     def crear_tarea(
@@ -107,9 +108,9 @@ class GestorTareas:
         return tarea
 
     def _guardar_y_notificar_tarea(self, tarea: Tarea, curso_id: int) -> None:
-        tarea.agregar_observador(self.servicio_notificaciones)
         self.repositorio.guardar_tarea(tarea)
-        tarea.notificar_observadores(
+        self.publicador_eventos.publicar(
+            tarea,
             "TAREA_CREADA",
             {
                 "titulo": tarea.titulo,
