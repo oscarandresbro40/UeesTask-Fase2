@@ -1,0 +1,70 @@
+Nombre: Migracion arquitectonica base a FastAPI/PostgreSQL.
+Aclaracion: este cambio es una migracion/reemplazo arquitectonico, no una refactorizacion.
+
+Rama y commit de origen:
+- Rama: feature/fase3-web
+- Commit de origen antes de la sustitucion: a847c74
+
+Tag de preservacion de refactorizaciones:
+- fase3-refactor-domain -> a847c74
+
+Rutas antiguas sustituidas:
+- app (estructura de Fase 2)
+- database
+- tests
+- main.py (raiz)
+- README.md
+
+Archivos nuevos incorporados desde el proyecto fuente:
+- app/__init__.py
+- app/config.py
+- app/database.py
+- app/main.py
+- app/models.py
+- app/security.py
+- app/services.py
+- tests/test_models.py
+- tests/test_security.py
+- migrations/env.py
+- migrations/script.py.mako
+- migrations/versions/d928cd155078_esquema_inicial_ueestask.py
+- alembic.ini
+- docker-compose.yml
+- pytest.ini
+- requirements.txt
+- uploads/.gitkeep
+
+Tecnologias incorporadas:
+- FastAPI
+- SQLAlchemy
+- Alembic
+- PostgreSQL (configuracion y dependencias)
+
+Resultado final de pruebas de Fase 2 antes de sustituir:
+- 19 passed
+
+Resultado de pruebas de la base web:
+- 3 passed
+
+Resultado del endpoint /salud:
+- 200 {'estado': 'ok', 'aplicacion': 'UeesTask'}
+
+Revision de Alembic:
+- alembic heads -> d928cd155078 (head)
+
+Confirmacion de igualdad de hashes con el proyecto fuente:
+- Se compararon hashes SHA256 de los 17 archivos requeridos (app, tests, migrations, alembic.ini, docker-compose.yml, pytest.ini, requirements.txt y uploads/.gitkeep).
+- Todas las parejas origen/destino resultaron OK.
+
+Confirmacion sobre docs/evidencias_pruebas:
+- El directorio se conservo.
+- Las evidencias anteriores permanecen.
+- En este cambio solo se agrego 07_migracion_base_web.txt dentro de docs/evidencias_pruebas.
+
+Confirmacion de alcance excluido (aun no copiado):
+- No se copio interfaz completa ni archivos app/web.py, app/uees.py, app/full.py, app/advanced.py, app/final.py.
+- No se copiaron templates ni CSS.
+- No se copiaron seed.py ni seed_group_d4.py.
+- No se copiaron instaladores ni manuales.
+- No se copio dump de PostgreSQL.
+- No se copiaron archivos de entregas de ejemplo.
