@@ -1,0 +1,51 @@
+Nombre: Exportacion del informe final de Fase 3.
+Commit base: 40ad048.
+Rama: feature/fase3-web.
+
+Entradas y precondiciones verificadas:
+- Archivo fuente: docs/Informe_Final_Fase3_UeesTask.md
+- Existe: True
+- Tamano: 19299 bytes
+- Bloques Mermaid detectados: 3
+
+Herramientas detectadas y usadas:
+- Node.js: v20.17.0
+- npm: 11.3.0
+- npx: disponible
+- Microsoft Word (COM via VBScript): 16.0
+- Pandoc: no disponible
+- LibreOffice/soffice: no disponible
+- mmdc global: no disponible (se ejecuto temporalmente con npx)
+
+Proceso ejecutado (sin modificar el Markdown fuente):
+1. Extraccion de 3 bloques Mermaid desde docs/Informe_Final_Fase3_UeesTask.md hacia archivos .mmd temporales en %TEMP%.
+2. Renderizado de 3 diagramas PNG con npx @mermaid-js/mermaid-cli en carpeta temporal.
+3. Generacion de DOCX en docs/Informe_Final_Fase3_UeesTask.docx mediante python-docx, incrustando los PNG en la posicion de cada bloque Mermaid.
+4. Exportacion de DOCX a PDF con VBScript + Microsoft Word a docs/Informe_Final_Fase3_UeesTask.pdf.
+
+Resultados de salida:
+- docs/Informe_Final_Fase3_UeesTask.docx
+  - Tamano: 524795 bytes
+  - SHA256: 778F2861CC42DDDFDCEA9A109D96C1C277A7247F25B59215AFD9898748DEF402
+- docs/Informe_Final_Fase3_UeesTask.pdf
+  - Tamano: 830835 bytes
+  - SHA256: E5B2B43057032A4BBEA5F15F8DF9E86848E9BAD1370EA3DF17AF92CBDAE570E1
+
+Verificaciones tecnicas de diagramas:
+- MERMAID_COUNT=3
+- MMDC_RENDERED=3
+- DOCX_MEDIA_COUNT=3
+- PDF_PAGE_COUNT=14
+- PDF_IMAGE_TOTAL=3
+
+Paquetes temporales instalados solo en %TEMP% (no en el repositorio ni requirements):
+- pymupdf
+- Pillow
+
+Confirmaciones:
+- README.md no fue modificado.
+- docs/Informe_Final_Fase3_UeesTask.md no fue modificado.
+- No se modifico codigo Python del proyecto.
+- No se modificaron pruebas, instaladores ni manuales existentes.
+- No se agregaron scripts auxiliares al repositorio.
+- No se agregaron imagenes temporales al repositorio.
