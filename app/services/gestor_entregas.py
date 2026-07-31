@@ -2,6 +2,7 @@ from datetime import datetime
 
 from app.models.entrega import Entrega
 from app.models.usuario import Estudiante
+from app.utils.validador_dominio import ValidadorDominio
 
 
 class GestorEntregas:
@@ -19,12 +20,11 @@ class GestorEntregas:
         archivo: str,
         comentario: str = "",
     ) -> Entrega:
-        if estudiante is None:
-            raise ValueError("El estudiante es obligatorio")
-        if tarea_id is None or tarea_id <= 0:
-            raise ValueError("El identificador de la tarea no es válido")
-        if archivo is None or archivo.strip() == "":
-            raise ValueError("Debe adjuntar un archivo")
+        ValidadorDominio.requerido(estudiante, "El estudiante es obligatorio")
+        ValidadorDominio.identificador_positivo(
+            tarea_id, "El identificador de la tarea no es válido"
+        )
+        ValidadorDominio.texto_requerido(archivo, "Debe adjuntar un archivo")
         if comentario is None:
             comentario = ""
 

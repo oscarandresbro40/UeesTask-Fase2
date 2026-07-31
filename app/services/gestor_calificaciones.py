@@ -5,6 +5,7 @@ from app.utils.constantes import (
     NOTA_MAXIMA,
     NOTA_MINIMA,
 )
+from app.utils.validador_dominio import ValidadorDominio
 
 
 class GestorCalificaciones:
@@ -21,10 +22,10 @@ class GestorCalificaciones:
         nota: float,
         retroalimentacion: str,
     ) -> Entrega:
-        if docente is None:
-            raise ValueError("El docente es obligatorio")
-        if entrega_id is None or entrega_id <= 0:
-            raise ValueError("El identificador de la entrega no es válido")
+        ValidadorDominio.requerido(docente, "El docente es obligatorio")
+        ValidadorDominio.identificador_positivo(
+            entrega_id, "El identificador de la entrega no es válido"
+        )
         nota_invalida = nota is None or not NOTA_MINIMA <= nota <= NOTA_MAXIMA
         if nota_invalida:
             mensaje = (
@@ -35,8 +36,11 @@ class GestorCalificaciones:
             raise ValueError(mensaje)
         if retroalimentacion is None:
             retroalimentacion = ""
-        if len(retroalimentacion) > MAX_CARACTERES_RETROALIMENTACION:
-            raise ValueError("La retroalimentación supera el máximo permitido")
+        ValidadorDominio.longitud_maxima(
+            retroalimentacion,
+            MAX_CARACTERES_RETROALIMENTACION,
+            "La retroalimentación supera el máximo permitido",
+        )
 
         entrega = self.repositorio.obtener_entrega(entrega_id)
         if entrega is None:

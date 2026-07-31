@@ -10,6 +10,7 @@ from app.utils.constantes import (
     PONDERACION_MAXIMA,
     PONDERACION_MINIMA,
 )
+from app.utils.validador_dominio import ValidadorDominio
 
 
 class GestorTareas:
@@ -62,20 +63,15 @@ class GestorTareas:
         fecha_entrega: datetime,
         ponderacion: float,
     ) -> None:
-        if docente is None:
-            raise ValueError("El docente es obligatorio")
-        if curso_id is None or curso_id <= 0:
-            raise ValueError("El curso es obligatorio")
-        if titulo is None or titulo.strip() == "":
-            raise ValueError("El título es obligatorio")
-        if descripcion is None or descripcion.strip() == "":
-            raise ValueError("La descripción es obligatoria")
-        if fecha_entrega is None:
-            raise ValueError("La fecha de entrega es obligatoria")
-        if fecha_entrega <= datetime.now():
-            raise ValueError("La fecha de entrega debe ser futura")
-        if ponderacion is None:
-            raise ValueError("La ponderación es obligatoria")
+        ValidadorDominio.requerido(docente, "El docente es obligatorio")
+        ValidadorDominio.identificador_positivo(curso_id, "El curso es obligatorio")
+        ValidadorDominio.texto_requerido(titulo, "El título es obligatorio")
+        ValidadorDominio.texto_requerido(descripcion, "La descripción es obligatoria")
+        ValidadorDominio.requerido(fecha_entrega, "La fecha de entrega es obligatoria")
+        ValidadorDominio.fecha_futura(
+            fecha_entrega, "La fecha de entrega debe ser futura"
+        )
+        ValidadorDominio.requerido(ponderacion, "La ponderación es obligatoria")
         if ponderacion < PONDERACION_MINIMA or ponderacion > PONDERACION_MAXIMA:
             raise ValueError("La ponderación debe estar entre 1 y 100")
 
