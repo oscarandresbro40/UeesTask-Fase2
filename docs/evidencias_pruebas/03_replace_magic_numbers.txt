@@ -1,0 +1,53 @@
+Tecnica aplicada: Replace Magic Numbers with Symbolic Constants.
+
+Valores reemplazados:
+- Ponderacion: comparacion literal <= 0 y > 100 reemplazada por constantes de dominio.
+- Nota: comparacion literal < 0 y > 100 reemplazada por constantes de dominio.
+- Retroalimentacion: longitud maxima literal > 500 reemplazada por constante de dominio.
+- Formato de fecha de notificacion: literal "%Y-%m-%d %H:%M" reemplazado por constante de dominio.
+
+Constantes creadas:
+- PONDERACION_MINIMA = 1
+- PONDERACION_MAXIMA = 100
+- NOTA_MINIMA = 0
+- NOTA_MAXIMA = 100
+- MAX_CARACTERES_RETROALIMENTACION = 500
+- FORMATO_FECHA_NOTIFICACION = "%Y-%m-%d %H:%M"
+
+Archivos modificados:
+- app/services/gestor_tareas.py
+- app/services/gestor_calificaciones.py
+- app/utils/constantes.py
+
+Resultado exacto de pruebas antes (.venv\Scripts\python.exe -m pytest):
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\sites\UeesTask\UeesTask-Fase2
+configfile: pytest.ini
+testpaths: tests
+collected 19 items
+
+tests\test_calificar_entrega.py .....                                    [ 26%]
+tests\test_crear_tarea.py ......                                         [ 57%]
+tests\test_entregar_tarea.py ......                                      [ 89%]
+tests\test_observer.py ..                                                [100%]
+
+============================= 19 passed in 0.03s ==============================
+
+Resultado exacto de pruebas despues (.venv\Scripts\python.exe -m pytest):
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: D:\sites\UeesTask\UeesTask-Fase2
+configfile: pytest.ini
+testpaths: tests
+collected 19 items
+
+tests\test_calificar_entrega.py .....                                    [ 26%]
+tests\test_crear_tarea.py ......                                         [ 57%]
+tests\test_entregar_tarea.py ......                                      [ 89%]
+tests\test_observer.py ..                                                [100%]
+
+============================= 19 passed in 0.03s ==============================
+
+Confirmacion de ejecucion de main.py:
+main.py ejecuto correctamente CU-04, CU-07 y CU-08, y genero las notificaciones esperadas sin cambios observables de comportamiento.

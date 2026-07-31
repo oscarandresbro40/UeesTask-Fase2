@@ -1,5 +1,10 @@
 from app.models.entrega import Entrega, EstadoEntrega
 from app.models.usuario import Docente
+from app.utils.constantes import (
+    MAX_CARACTERES_RETROALIMENTACION,
+    NOTA_MAXIMA,
+    NOTA_MINIMA,
+)
 
 
 class GestorCalificaciones:
@@ -22,11 +27,11 @@ class GestorCalificaciones:
             raise ValueError("El identificador de la entrega no es válido")
         if nota is None:
             raise ValueError("La nota es obligatoria")
-        if nota < 0 or nota > 100:
+        if nota < NOTA_MINIMA or nota > NOTA_MAXIMA:
             raise ValueError("La nota debe estar entre 0 y 100")
         if retroalimentacion is None:
             retroalimentacion = ""
-        if len(retroalimentacion) > 500:
+        if len(retroalimentacion) > MAX_CARACTERES_RETROALIMENTACION:
             raise ValueError("La retroalimentación supera el máximo permitido")
 
         entrega = self.repositorio.obtener_entrega(entrega_id)

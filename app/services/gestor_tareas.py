@@ -5,6 +5,11 @@ from app.models.tarea import Tarea
 from app.models.usuario import Docente, Estudiante
 from app.services.gestor_calificaciones import GestorCalificaciones
 from app.services.gestor_entregas import GestorEntregas
+from app.utils.constantes import (
+    FORMATO_FECHA_NOTIFICACION,
+    PONDERACION_MAXIMA,
+    PONDERACION_MINIMA,
+)
 
 
 class GestorTareas:
@@ -71,7 +76,7 @@ class GestorTareas:
             raise ValueError("La fecha de entrega debe ser futura")
         if ponderacion is None:
             raise ValueError("La ponderación es obligatoria")
-        if ponderacion <= 0 or ponderacion > 100:
+        if ponderacion < PONDERACION_MINIMA or ponderacion > PONDERACION_MAXIMA:
             raise ValueError("La ponderación debe estar entre 1 y 100")
 
     def _obtener_curso_del_docente(self, curso_id: int, docente: Docente):
@@ -112,7 +117,7 @@ class GestorTareas:
             "TAREA_CREADA",
             {
                 "titulo": tarea.titulo,
-                "fecha_entrega": tarea.fecha_entrega.strftime("%Y-%m-%d %H:%M"),
+                "fecha_entrega": tarea.fecha_entrega.strftime(FORMATO_FECHA_NOTIFICACION),
                 "destinatario": f"curso-{curso_id}",
             },
         )
