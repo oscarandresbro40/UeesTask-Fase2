@@ -1,8 +1,10 @@
 from datetime import datetime
 
-from app.models.entrega import Entrega, EstadoEntrega
+from app.models.entrega import Entrega
 from app.models.tarea import Tarea
 from app.models.usuario import Docente, Estudiante
+from app.services.gestor_calificaciones import GestorCalificaciones
+from app.services.gestor_entregas import GestorEntregas
 
 
 class GestorTareas:
@@ -10,7 +12,10 @@ class GestorTareas:
         self.repositorio = repositorio
         self.servicio_notificaciones = servicio_notificaciones
         self.siguiente_tarea_id = 1
-        self.siguiente_entrega_id = 1
+        self.gestor_entregas = GestorEntregas(repositorio, servicio_notificaciones)
+        self.gestor_calificaciones = GestorCalificaciones(
+            repositorio, servicio_notificaciones
+        )
 
     def crear_tarea(
         self,
@@ -125,49 +130,9 @@ class GestorTareas:
         archivo adjunto y posibles entregas duplicadas; luego guarda la entrega
         y genera una notificación.
         """
-        if estudiante is None:
-            raise ValueError("El estudiante es obligatorio")
-        if tarea_id is None or tarea_id <= 0:
-            raise ValueError("El identificador de la tarea no es válido")
-        if archivo is None or archivo.strip() == "":
-            raise ValueError("Debe adjuntar un archivo")
-        if comentario is None:
-            comentario = ""
-
-        tarea = self.repositorio.obtener_tarea(tarea_id)
-        if tarea is None:
-            raise LookupError("La tarea no existe")
-
-        curso = self.repositorio.obtener_curso(tarea.curso_id)
-        if curso is None:
-            raise LookupError("El curso relacionado no existe")
-        if estudiante.id_usuario not in curso.estudiantes_ids:
-            raise PermissionError("El estudiante no está matriculado en el curso")
-        if tarea.esta_vencida():
-            raise ValueError("La tarea está vencida")
-        if self.repositorio.buscar_entrega(tarea_id, estudiante.id_usuario):
-            raise ValueError("El estudiante ya registró una entrega para esta tarea")
-
-        entrega = Entrega(
-            id_entrega=self.siguiente_entrega_id,
-            tarea_id=tarea_id,
-            estudiante_id=estudiante.id_usuario,
-            archivo=archivo.strip(),
-            fecha=datetime.now(),
-            comentario=comentario.strip(),
+        return self.gestor_entregas.entregar_tarea(
+            estudiante, tarea_id, archivo, comentario
         )
-        self.siguiente_entrega_id += 1
-
-        entrega.agregar_observador(self.servicio_notificaciones)
-        self.repositorio.guardar_entrega(entrega)
-        entrega.notificar_observadores(
-            "ENTREGA_REGISTRADA",
-            {
-                "archivo": entrega.archivo,
-                "destinatario": estudiante.email,
-            },
-        )
-        return entrega
 
     def calificar_entrega(
         self,
@@ -182,49 +147,6 @@ class GestorTareas:
         sido calificada previamente; luego registra la retroalimentación, cambia
         el estado a CALIFICADA y notifica al estudiante.
         """
-        if docente is None:
-            raise ValueError("El docente es obligatorio")
-        if entrega_id is None or entrega_id <= 0:
-            raise ValueError("El identificador de la entrega no es válido")
-        if nota is None:
-            raise ValueError("La nota es obligatoria")
-        if nota < 0 or nota > 100:
-            raise ValueError("La nota debe estar entre 0 y 100")
-        if retroalimentacion is None:
-            retroalimentacion = ""
-        if len(retroalimentacion) > 500:
-            raise ValueError("La retroalimentación supera el máximo permitido")
-
-        entrega = self.repositorio.obtener_entrega(entrega_id)
-        if entrega is None:
-            raise LookupError("La entrega no existe")
-
-        tarea = self.repositorio.obtener_tarea(entrega.tarea_id)
-        if tarea is None:
-            raise LookupError("La tarea relacionada no existe")
-        if tarea.docente_id != docente.id_usuario:
-            raise PermissionError("El docente no puede calificar esta entrega")
-        if entrega.estado == EstadoEntrega.CALIFICADA:
-            raise ValueError("La entrega ya fue calificada")
-
-        estudiante = self.repositorio.obtener_usuario(entrega.estudiante_id)
-        if estudiante is None:
-            raise LookupError("El estudiante no existe")
-
-        entrega.calificacion = nota
-        entrega.retroalimentacion = retroalimentacion.strip()
-        entrega.estado = EstadoEntrega.CALIFICADA
-        self.repositorio.guardar_entrega(entrega)
-
-        if self.servicio_notificaciones not in entrega.observadores:
-            entrega.agregar_observador(self.servicio_notificaciones)
-
-        entrega.notificar_observadores(
-            "ENTREGA_CALIFICADA",
-            {
-                "nota": nota,
-                "retroalimentacion": entrega.retroalimentacion,
-                "destinatario": estudiante.email,
-            },
+        return self.gestor_calificaciones.calificar_entrega(
+            docente, entrega_id, nota, retroalimentacion
         )
-        return entrega
