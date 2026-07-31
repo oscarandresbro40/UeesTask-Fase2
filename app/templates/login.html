@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión | UeesTask{% endblock %}
+{% block body %}
+<main class="login-layout">
+  <section class="brand-panel">
+    <div class="brand-mark">UT</div>
+    <p class="eyebrow">Plataforma académica UEES</p>
+    <h1>Organiza, entrega y evalúa en un solo lugar.</h1>
+    <p class="lead">UeesTask conecta a docentes y estudiantes con un flujo claro para cada actividad académica.</p>
+    <div class="feature-row">
+      <span>✓ Cursos</span><span>✓ Tareas</span><span>✓ Calificaciones</span>
+    </div>
+  </section>
+  <section class="login-panel">
+    <form class="login-card" method="post" action="/login">
+      <p class="eyebrow purple">Bienvenido</p>
+      <h2>Inicia sesión</h2>
+      <p class="muted">Usa tu cuenta institucional para continuar.</p>
+      {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+      <label>Correo institucional
+        <input type="email" name="email" placeholder="nombre@uees.edu.ec" required autofocus>
+      </label>
+      <label>Contraseña
+        <input type="password" name="password" placeholder="Tu contraseña" required>
+      </label>
+      <button type="submit">Ingresar a UeesTask</button>
+      <div class="demo-box">
+        <strong>Cuentas de demostración</strong>
+        <small>admin@uees.edu.ec · Admin123!</small>
+        <small>docente@uees.edu.ec · Docente123!</small>
+        <small>estudiante@uees.edu.ec · Estudiante123!</small>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}

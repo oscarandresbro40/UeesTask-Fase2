@@ -1,0 +1,67 @@
+Nombre: Incorporacion de autenticacion y paneles por rol.
+Aclaracion: este cambio agrega funcionalidad web; no es una refactorizacion.
+Commit base: d37e141.
+
+Archivos incorporados:
+- app/web.py
+- app/uees.py
+- app/templates/base.html
+- app/templates/dashboard.html
+- app/templates/login.html
+- app/templates_uees/base.html
+- app/static/css/app.css
+- app/static/css/uees.css
+
+Autenticacion por sesion:
+- Se incorpora SessionMiddleware.
+- Se usa login con formulario y cierre de sesion.
+
+Login invalido:
+- Respuesta HTTP: 401.
+- Mensaje validado mediante extraccion robusta de alerta HTML.
+- Texto exacto extraido con repr(rendered_alert): 'Correo o contraseña incorrectos.'
+
+Login valido y panel:
+- Login valido devuelve 200 con redireccion al panel.
+- El panel contiene "Hola,".
+
+Logout:
+- Logout devuelve 200.
+- Tras logout vuelve a mostrarse el formulario con action="/login".
+
+Paneles por rol:
+- Se incorporan paneles diferenciados para ADMIN, TEACHER y STUDENT.
+
+Seguridad:
+- Se utiliza bcrypt a traves de security.py para hash y verificacion de credenciales.
+
+Resultado de pytest:
+- 3 passed.
+
+Resultado de /salud:
+- {'estado': 'ok', 'aplicacion': 'UeesTask', 'version': '0.2.0'}
+
+Rutas registradas:
+- /
+- /docs
+- /docs/oauth2-redirect
+- /login
+- /logout
+- /openapi.json
+- /panel
+- /redoc
+- /salud
+- /static
+
+Confirmacion de hashes:
+- Los ocho archivos copiados mantienen hashes SHA256 identicos al proyecto fuente.
+
+Aclaracion sobre la primera detencion del paso temporal:
+- La primera prueba se detuvo por una asercion literal demasiado rigida sobre la representacion renderizada del mensaje.
+- No se debio a una falla de autenticacion.
+- No se modifico codigo para resolverlo; solo se uso validacion robusta del HTML renderizado.
+
+Confirmaciones adicionales:
+- No fue necesario iniciar PostgreSQL para esta validacion temporal.
+- No se copiaron modulos avanzados: full.py, advanced.py ni final.py.
+- No se copiaron templates_full ni templates_advanced.
