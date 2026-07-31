@@ -49,3 +49,82 @@ Confirmaciones:
 - No se modificaron pruebas, instaladores ni manuales existentes.
 - No se agregaron scripts auxiliares al repositorio.
 - No se agregaron imagenes temporales al repositorio.
+
+---
+
+Correccion y segunda auditoria visual
+
+Defecto detectado en la auditoria inicial:
+- La pagina 9 del PDF quedaba casi vacia y mostraba solo el titulo "Diagrama C - Modelo final de la aplicacion web".
+- El Diagrama C comenzaba en la pagina siguiente.
+
+Pagina afectada:
+- Pagina 9.
+
+Diagnostico tecnico del salto:
+- El parrafo del titulo heredaba keep_with_next desde el estilo Heading 3.
+- La tercera imagen tenia una altura de 8402683 EMU, superior al alto util disponible de la seccion (8229600 EMU).
+- Word no podia mantener titulo e imagen en la misma pagina y desplazo el bloque completo, dejando el titulo aislado.
+
+Correccion aplicada:
+- Se mantuvo el titulo ligado al bloque siguiente.
+- Se aplico keep_together al parrafo de la tercera imagen.
+- Se redujo proporcionalmente el tercer diagrama al 92% de su tamano original, sin deformarlo.
+- No se modifico el Markdown fuente.
+- No se agregaron ni eliminaron diagramas.
+- Se conservaron exactamente 3 imagenes incrustadas.
+
+Resultado de la segunda exportacion:
+- DOCX: 524846 bytes, SHA256 9B2C798FA737642322EFB2887B28F4AE4D714D55780BCF36D87BA735A3D23D2D
+- PDF: 830922 bytes, SHA256 5527848F3CBFBA73D2C5E632C67FEE18C64507010B4FFA5C371D808125ED98F7
+
+Validacion estructural posterior:
+- Numero de paginas del PDF: 13
+- Parrafos del DOCX: 214
+- Tablas del DOCX: 3
+- Imagenes incrustadas del DOCX: 3
+- Secciones del DOCX: 1
+- Bloques ```mermaid visibles: no
+
+Confirmacion visual posterior:
+- La pagina 9 ahora contiene el titulo del Diagrama C y el inicio del diagrama en la misma pagina.
+- No hay recortes, contenidos fuera de margen ni solapamientos nuevos en ninguna pagina.
+- Los tres diagramas se visualizan completos y legibles.
+
+Inspeccion de paginas del PDF corregido:
+- Pagina 1: correcta.
+- Pagina 2: correcta.
+- Pagina 3: correcta.
+- Pagina 4: correcta.
+- Pagina 5: correcta.
+- Pagina 6: correcta.
+- Pagina 7: correcta.
+- Pagina 8: correcta.
+- Pagina 9: correcta; Diagrama C comienza junto al titulo.
+- Pagina 10: correcta.
+- Pagina 11: correcta.
+- Pagina 12: correcta.
+- Pagina 13: correcta.
+
+Presencia de contenido obligatorio en el PDF corregido:
+- UeesTask.
+- Fase 3.
+- Los cuatro integrantes.
+- Las seis refactorizaciones.
+- Extract Method.
+- Extract Class.
+- Replace Magic Number.
+- Consolidate Conditional.
+- ValidadorDominio.
+- PublicadorEventos.
+- 19 pruebas.
+- 32 pruebas.
+- FastAPI.
+- PostgreSQL.
+- Conclusiones.
+
+Resultado de pruebas:
+- pytest: 32 passed.
+
+Veredicto posterior a la correccion:
+- APROBADO PARA INTEGRAR EN MAIN.
