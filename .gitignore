@@ -9,3 +9,7 @@ coverage.xml
 htmlcov/
 .idea/
 .vscode/
+
+# Entregas generadas durante la ejecución
+uploads/*
+!uploads/.gitkeep
