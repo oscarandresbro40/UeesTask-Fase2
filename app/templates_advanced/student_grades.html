@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Mis calificaciones | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Mi progreso</p><h1>Calificaciones</h1><p class="muted">Consulta tus notas y retroalimentación.</p></div>
+  <div class="average-card"><span>Promedio simple</span><strong>{{ "%.2f"|format(average) if average is not none else "—" }}</strong></div>
+</div>
+<section class="submission-list">
+{% for submission in submissions %}
+  <article class="panel student-grade">
+    <div><p class="eyebrow purple">{{ submission.task.course.name }}</p><h2>{{ submission.task.title }}</h2><p class="muted">{{ submission.feedback or "Aún no existe retroalimentación." }}</p></div>
+    <div class="grade-value {{ 'pending' if submission.grade is none else '' }}">{{ submission.grade if submission.grade is not none else "Pendiente" }}{% if submission.grade is not none %}<small>/100</small>{% endif %}</div>
+  </article>
+{% else %}<article class="panel empty-state">Todavía no tienes entregas registradas.</article>{% endfor %}
+</section>
+{% endblock %}

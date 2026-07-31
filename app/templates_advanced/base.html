@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#8f123a">
+    <title>{% block title %}UeesTask{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/uees.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/full.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/advanced.css') }}">
+  </head>
+  <body>
+    {% if user is defined and user %}
+    <div class="app-shell">
+      <aside>
+        <div class="logo"><span>UT</span> UeesTask</div>
+        <nav>
+          <a class="{{ 'active' if request.url.path == '/panel' else '' }}" href="/panel">Resumen</a>
+          {% if user.role.value == "ADMIN" %}<a class="{{ 'active' if request.url.path == '/usuarios' else '' }}" href="/usuarios">Usuarios</a>{% endif %}
+          <a class="{{ 'active' if request.url.path == '/cursos' else '' }}" href="/cursos">Cursos</a>
+          <a class="{{ 'active' if request.url.path == '/tareas' else '' }}" href="/tareas">Tareas</a>
+          <a class="{{ 'active' if request.url.path == '/entregas' else '' }}" href="/entregas">Entregas</a>
+          <a class="{{ 'active' if request.url.path == '/calificaciones' else '' }}" href="/calificaciones">Calificaciones</a>
+          <a class="{{ 'active' if request.url.path == '/notificaciones' else '' }}" href="/notificaciones">Notificaciones</a>
+          {% if user.role.value in ["ADMIN", "DOCENTE"] %}<a class="{{ 'active' if request.url.path == '/gestion' else '' }}" href="/gestion">Gestión</a>{% endif %}
+        </nav>
+        <div class="aside-user"><strong>{{ user.full_name }}</strong><small>{{ user.role.value }}</small></div>
+        <form method="post" action="/logout"><button class="logout">Cerrar sesión</button></form>
+      </aside>
+      <main class="dashboard">
+        {% if flash %}<div class="flash {{ flash.kind }}">{{ flash.message }}</div>{% endif %}
+        {% block app_content %}{% endblock %}
+      </main>
+    </div>
+    {% else %}
+      {% block body %}{% endblock %}
+    {% endif %}
+  </body>
+</html>

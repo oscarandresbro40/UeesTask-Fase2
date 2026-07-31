@@ -1,0 +1,43 @@
+.management-section { margin-bottom: 34px; }
+.management-section > h2 { margin-bottom: 16px; }
+.management-grid { display: grid; grid-template-columns: repeat(2, minmax(320px, 1fr)); gap: 16px; }
+.manage-card { padding: 0; overflow: hidden; }
+.manage-card > summary, .task-manage > summary { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 18px 20px; cursor: pointer; list-style: none; }
+.manage-card > summary::-webkit-details-marker, .task-manage > summary::-webkit-details-marker { display: none; }
+.manage-card > summary > div, .manage-head > div { display: grid; gap: 4px; }
+.manage-card small, .manage-head small { color: var(--muted); }
+.manage-card[open] > summary { background: #fbf4f6; border-bottom: 1px solid var(--line); }
+.manage-card > form { margin: 18px 20px; }
+.compact { gap: 11px; }
+.compact input, .compact textarea { padding: 10px 11px; }
+.state { display: inline-flex; width: max-content; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 900; }
+.state.on { color: #22633a; background: #e6f6ec; }
+.state.off { color: #8a2939; background: #f9e7eb; }
+.danger-outline, .link-danger { border: 0; color: #9b2445; background: transparent; cursor: pointer; font-weight: 800; }
+.danger-outline { padding: 9px 12px; border: 1px solid #e7b9c6; border-radius: 9px; }
+.manage-course { display: grid; gap: 14px; }
+.manage-head { display: flex; justify-content: space-between; gap: 16px; }
+.manage-course h3 { margin: 6px 0 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+.manage-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.task-manage { border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+.task-manage > summary { padding: 12px; }
+.task-manage[open] > summary { background: #f8f8fa; }
+.task-manage form { margin: 13px; }
+.course-picker select { min-width: 270px; }
+.gradebook table th, .gradebook table td { text-align: center; }
+.gradebook table th:first-child, .gradebook table td:first-child { min-width: 200px; text-align: left; }
+.gradebook table th small, .gradebook table td small { display: block; margin-top: 4px; color: var(--muted); font-weight: 500; }
+.average { color: var(--purple); font-size: 17px; }
+.average-card { min-width: 145px; padding: 14px 20px; border-radius: 14px; color: white; background: linear-gradient(135deg, #9f1744, #6c0b2b); display: grid; gap: 5px; text-align: center; }
+.average-card span { font-size: 12px; opacity: .85; }
+.average-card strong { font-size: 27px; }
+.student-grade { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.student-grade h2 { margin: 5px 0; }
+.grade-value { min-width: 105px; color: var(--purple); font-size: 32px; font-weight: 900; text-align: right; }
+.grade-value small { font-size: 14px; }
+.grade-value.pending { color: var(--muted); font-size: 16px; }
+@media (max-width: 900px) {
+  .management-grid { grid-template-columns: 1fr; }
+  .page-heading { align-items: stretch; flex-direction: column; gap: 15px; }
+  .course-picker select { width: 100%; min-width: 0; }
+}

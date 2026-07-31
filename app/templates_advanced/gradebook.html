@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Calificaciones | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Seguimiento académico</p><h1>Libro de calificaciones</h1><p class="muted">Resultados y promedio ponderado por curso.</p></div>
+  {% if courses %}
+  <form method="get" action="/calificaciones" class="course-picker">
+    <select name="course_id" onchange="this.form.submit()">
+      {% for course in courses %}<option value="{{ course.id }}" {{ 'selected' if selected and selected.id == course.id else '' }}>{{ course.name }} · {{ course.period }}</option>{% endfor %}
+    </select>
+  </form>
+  {% endif %}
+</div>
+{% if selected %}
+<article class="panel gradebook">
+  <div class="panel-title"><h2>{{ selected.name }}</h2><span>{{ rows|length }} estudiantes · {{ tasks|length }} tareas</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Estudiante</th>{% for task in tasks %}<th title="{{ task.title }}">{{ task.title|truncate(18) }}<small>{{ task.weight }}%</small></th>{% endfor %}<th>Promedio</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr><td><strong>{{ row.student.full_name }}</strong><small>{{ row.student.student_number or '' }}</small></td>{% for grade in row.grades %}<td>{{ grade if grade is not none else "—" }}</td>{% endfor %}<td><strong class="average">{{ "%.2f"|format(row.average) if row.average is not none else "—" }}</strong></td></tr>
+      {% else %}<tr><td colspan="{{ tasks|length + 2 }}">No hay estudiantes matriculados.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</article>
+{% else %}<article class="panel empty-state">No hay cursos disponibles.</article>{% endif %}
+{% endblock %}
