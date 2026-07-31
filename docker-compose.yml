@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ueestask-postgres
+    environment:
+      POSTGRES_DB: ueestask
+      POSTGRES_USER: ueestask
+      POSTGRES_PASSWORD: ueestask_dev_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - ueestask_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ueestask -d ueestask"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  ueestask_postgres_data:
+    name: ueestask_postgres_data

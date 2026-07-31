@@ -1,0 +1,36 @@
+Nombre: Refactorizacion 4 - Consolidate Conditional Expression.
+Archivo modificado: app/services/gestor_calificaciones.py
+Metodo afectado: GestorCalificaciones.calificar_entrega
+
+Problema antes del cambio:
+La validacion de nota se hacia con dos condicionales consecutivos para detectar ausencia de nota y fuera de rango, dispersando la decision de invalidez.
+
+Antes (descripcion exacta):
+1) if nota is None: raise ValueError("La nota es obligatoria")
+2) if nota < NOTA_MINIMA or nota > NOTA_MAXIMA: raise ValueError("La nota debe estar entre 0 y 100")
+
+Despues (descripcion exacta):
+1) Se calcula nota_invalida = nota is None or not NOTA_MINIMA <= nota <= NOTA_MAXIMA
+2) Con una unica sentencia if nota_invalida se selecciona el mensaje segun el caso:
+   - "La nota es obligatoria" cuando nota is None
+   - "La nota debe estar entre 0 y 100" cuando la nota existe pero esta fuera de rango
+3) Se levanta ValueError(mensaje)
+
+Explicacion de consolidacion:
+Se unifico la decision de invalidez de nota en una sola expresion condicional booleana, manteniendo evaluacion segura cuando nota es None y separando solo la seleccion del mensaje.
+
+Confirmacion de mensajes conservados:
+- "La nota es obligatoria": sin cambios.
+- "La nota debe estar entre 0 y 100": sin cambios.
+
+Resultado de pytest antes: 19 passed.
+Resultado de pytest despues: 19 passed.
+
+Resultado de main.py:
+Ejecucion correcta de CU-04, CU-07 y CU-08 con salida funcional esperada: creacion de tarea, registro de entrega, calificacion 95/100 y notificaciones.
+
+Confirmacion sobre pruebas:
+No se modificaron pruebas.
+
+Confirmacion sobre interfaz publica:
+No cambio la firma publica de calificar_entrega ni otras firmas publicas.

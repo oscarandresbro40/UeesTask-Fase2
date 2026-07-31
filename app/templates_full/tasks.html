@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Tareas | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Actividades</p><h1>Tareas</h1><p class="muted">Publicación, recursos y fechas de entrega.</p></div>
+</div>
+{% if user.role.value == "DOCENTE" %}
+<article class="panel form-panel spaced">
+  <h2>Publicar nueva tarea</h2>
+  <form method="post" action="/tareas" enctype="multipart/form-data" class="form-grid">
+    <label class="wide">Curso
+      <select name="course_id" required>
+        {% for course in courses %}<option value="{{ course.id }}">{{ course.name }} · {{ course.period }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="wide">Título<input name="title" maxlength="180" required></label>
+    <label class="wide">Descripción<textarea name="description" rows="4" required></textarea></label>
+    <label>Fecha límite<input type="datetime-local" name="due_at" required></label>
+    <label>Ponderación<input type="number" name="weight" min="1" max="100" step="0.01" required></label>
+    <label class="wide">Recurso opcional<input type="file" name="resource" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar,.7z,.png,.jpg,.jpeg"></label>
+    <button class="primary wide" type="submit">Publicar tarea</button>
+  </form>
+</article>
+{% endif %}
+<section class="card-grid">
+{% for task in tasks %}
+  <article class="panel task-card">
+    <div class="task-top"><span class="badge">{{ task.status.value }}</span><strong>{{ task.weight|int if task.weight == task.weight|int else task.weight }}%</strong></div>
+    <p class="eyebrow purple">{{ task.course.name }}</p>
+    <h2>{{ task.title }}</h2>
+    <p>{{ task.description }}</p>
+    <div class="deadline"><span>Fecha límite</span><strong>{{ task.due_at.strftime('%d/%m/%Y · %H:%M') }}</strong></div>
+    {% if task.resources %}
+    <div class="resource-list">
+      {% for resource in task.resources %}<a href="/recursos/{{ resource.id }}/archivo">Descargar {{ resource.original_name }}</a>{% endfor %}
+    </div>
+    {% endif %}
+    {% if user.role.value == "ESTUDIANTE" %}
+      {% if task.id in submitted_task_ids %}
+        <div class="submitted">✓ Entrega registrada</div>
+      {% else %}
+        <form method="post" action="/tareas/{{ task.id }}/entregar" enctype="multipart/form-data" class="submission-form">
+          <label>Archivo<input type="file" name="attachment" required></label>
+          <label>Comentario<textarea name="comment" rows="2"></textarea></label>
+          <button class="primary" type="submit">Entregar tarea</button>
+        </form>
+      {% endif %}
+    {% elif user.role.value == "DOCENTE" %}
+      <a class="text-link" href="/entregas">Ver {{ task.submissions|length }} entrega(s)</a>
+    {% endif %}
+  </article>
+{% else %}<article class="panel empty-state">Todavía no hay tareas publicadas.</article>{% endfor %}
+</section>
+{% endblock %}

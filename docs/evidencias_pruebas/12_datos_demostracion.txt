@@ -1,0 +1,59 @@
+Nombre: Incorporacion de datos de demostracion reproducibles.
+Aclaracion: este cambio agrega funcionalidad y preparacion de datos; no es una refactorizacion.
+Commit base: 1b9b9be.
+Rama: feature/fase3-web.
+
+Archivos incorporados:
+- app/seed.py
+- app/seed_group_d4.py
+- database/ueestask_demo_d4.dump
+- .gitignore (reglas para excluir entregas generadas)
+- docs/evidencias_pruebas/12_datos_demostracion.txt
+
+Seeds incorporados:
+- app/seed.py
+- app/seed_group_d4.py
+
+Respaldo PostgreSQL incorporado:
+- database/ueestask_demo_d4.dump
+
+Hash y tamano de archivos incorporados:
+- app/seed.py
+  - Tamano: 2006 bytes
+  - SHA256: 22BF0AD73059E2E4AD1902F9DEA2687208851F37E98CC147E3EA36E88DE55FCB
+- app/seed_group_d4.py
+  - Tamano: 6677 bytes
+  - SHA256: 28EEA7986B03633749A701E9504A8CACA53C698F28879A1376DFD99C472CBEAD
+- database/ueestask_demo_d4.dump
+  - Tamano: 25502 bytes
+  - SHA256: 6B122CED36AF34E1F75F7F004A0AE976C8EC738BED0A611309A171543729470B
+
+Firma de dump verificada:
+- Firma: PGDMP
+- Tamano leido: 25502
+
+Compilacion de scripts seed:
+- Comando: .\.venv\Scripts\python.exe -m py_compile app/seed.py app/seed_group_d4.py
+- Resultado: compilacion completada sin errores.
+
+Resultado total de pruebas:
+- Comando: .\.venv\Scripts\python.exe -m pytest
+- Resultado: 32 passed, 1 warning.
+
+Nota sobre ejecucion de seeds:
+- Los scripts seed no se ejecutaron contra una base de datos real para evitar modificar datos reales.
+
+Validacion de .gitignore para entregas:
+- Reglas agregadas al final:
+  # Entregas generadas durante la ejecucion
+  uploads/*
+  !uploads/.gitkeep
+- Validacion:
+  - uploads/entregas/archivo-ejemplo.pdf queda ignorado por uploads/*.
+  - uploads/.gitkeep queda permitido por !uploads/.gitkeep.
+  - uploads/.gitkeep permanece rastreado en git.
+
+Confirmaciones:
+- No se copiaron archivos de uploads/entregas.
+- No se incorporaron instaladores ni manuales en este paso.
+- No se modifico el proyecto fuente.

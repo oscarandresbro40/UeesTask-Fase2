@@ -1,0 +1,62 @@
+Nombre: Gestion avanzada y libro de calificaciones.
+Aclaracion: este cambio incorpora funcionalidad web; no es una refactorizacion.
+Commit base: c1fbdf3.
+
+Archivos incorporados:
+- app/advanced.py
+- app/templates_advanced/base.html
+- app/templates_advanced/gradebook.html
+- app/templates_advanced/management.html
+- app/templates_advanced/student_grades.html
+- app/static/css/advanced.css
+- tests/test_comprehensive_validation.py
+
+Operaciones avanzadas agregadas:
+- Edicion de usuarios.
+- Activacion/desactivacion de usuarios.
+- Cierre/reapertura de cursos.
+- Retiro de matriculas.
+- Edicion de tareas.
+- Cierre/reapertura de tareas.
+- Libro de calificaciones.
+- Vista individual de calificaciones del estudiante.
+
+Roles autorizados para gestion:
+- Gestion administrativa y operaciones academicas avanzadas para perfiles con privilegios de administracion/docencia segun las rutas protegidas.
+
+Libro de calificaciones:
+- Vista de libro de calificaciones para administrador/docente en /calificaciones.
+- Vista individual del estudiante en /calificaciones.
+
+Resultados de pruebas:
+- tests/test_comprehensive_validation.py: 24 passed.
+- pytest total: 31 passed.
+
+Resultado de prueba temporal de vistas avanzadas (SQLite en memoria):
+- Login administrador: 200
+- Gestion: 200
+- Libro de calificaciones: 200
+- Login estudiante: 200
+- Mis calificaciones: 200
+- Diagnostico textual de lectura: la asercion exacta de "Gestión" no se cumplio en tiempo de prueba, pero la respuesta 200 y el HTML devuelto contienen la vista de gestion (snippet con "<title>Gestión | UeesTask</title>").
+- No hubo traceback en la ejecucion de diagnostico de lectura.
+
+Rutas agregadas observadas en app.advanced:
+- /gestion
+- /usuarios/{user_id}/editar
+- /usuarios/{user_id}/estado
+- /cursos/{course_id}/estado
+- /cursos/{course_id}/matriculas/{student_id}/retirar
+- /tareas/{task_id}/editar
+- /tareas/{task_id}/estado
+- /calificaciones
+
+Confirmacion de hashes:
+- Se compararon hashes SHA256 de 7 parejas fuente/destino.
+- Todas resultaron identicas (OK).
+
+Confirmaciones de alcance:
+- Las pruebas usan SQLite temporal para validacion.
+- No se modifico codigo existente; solo se copiaron archivos autorizados.
+- final.py todavia no fue incorporado.
+- test_advanced_rules.py todavia no fue incorporado.

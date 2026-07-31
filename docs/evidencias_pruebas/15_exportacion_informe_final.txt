@@ -1,0 +1,130 @@
+Nombre: Exportacion del informe final de Fase 3.
+Commit base: 40ad048.
+Rama: feature/fase3-web.
+
+Entradas y precondiciones verificadas:
+- Archivo fuente: docs/Informe_Final_Fase3_UeesTask.md
+- Existe: True
+- Tamano: 19299 bytes
+- Bloques Mermaid detectados: 3
+
+Herramientas detectadas y usadas:
+- Node.js: v20.17.0
+- npm: 11.3.0
+- npx: disponible
+- Microsoft Word (COM via VBScript): 16.0
+- Pandoc: no disponible
+- LibreOffice/soffice: no disponible
+- mmdc global: no disponible (se ejecuto temporalmente con npx)
+
+Proceso ejecutado (sin modificar el Markdown fuente):
+1. Extraccion de 3 bloques Mermaid desde docs/Informe_Final_Fase3_UeesTask.md hacia archivos .mmd temporales en %TEMP%.
+2. Renderizado de 3 diagramas PNG con npx @mermaid-js/mermaid-cli en carpeta temporal.
+3. Generacion de DOCX en docs/Informe_Final_Fase3_UeesTask.docx mediante python-docx, incrustando los PNG en la posicion de cada bloque Mermaid.
+4. Exportacion de DOCX a PDF con VBScript + Microsoft Word a docs/Informe_Final_Fase3_UeesTask.pdf.
+
+Resultados de salida:
+- docs/Informe_Final_Fase3_UeesTask.docx
+  - Tamano: 524795 bytes
+  - SHA256: 778F2861CC42DDDFDCEA9A109D96C1C277A7247F25B59215AFD9898748DEF402
+- docs/Informe_Final_Fase3_UeesTask.pdf
+  - Tamano: 830835 bytes
+  - SHA256: E5B2B43057032A4BBEA5F15F8DF9E86848E9BAD1370EA3DF17AF92CBDAE570E1
+
+Verificaciones tecnicas de diagramas:
+- MERMAID_COUNT=3
+- MMDC_RENDERED=3
+- DOCX_MEDIA_COUNT=3
+- PDF_PAGE_COUNT=14
+- PDF_IMAGE_TOTAL=3
+
+Paquetes temporales instalados solo en %TEMP% (no en el repositorio ni requirements):
+- pymupdf
+- Pillow
+
+Confirmaciones:
+- README.md no fue modificado.
+- docs/Informe_Final_Fase3_UeesTask.md no fue modificado.
+- No se modifico codigo Python del proyecto.
+- No se modificaron pruebas, instaladores ni manuales existentes.
+- No se agregaron scripts auxiliares al repositorio.
+- No se agregaron imagenes temporales al repositorio.
+
+---
+
+Correccion y segunda auditoria visual
+
+Defecto detectado en la auditoria inicial:
+- La pagina 9 del PDF quedaba casi vacia y mostraba solo el titulo "Diagrama C - Modelo final de la aplicacion web".
+- El Diagrama C comenzaba en la pagina siguiente.
+
+Pagina afectada:
+- Pagina 9.
+
+Diagnostico tecnico del salto:
+- El parrafo del titulo heredaba keep_with_next desde el estilo Heading 3.
+- La tercera imagen tenia una altura de 8402683 EMU, superior al alto util disponible de la seccion (8229600 EMU).
+- Word no podia mantener titulo e imagen en la misma pagina y desplazo el bloque completo, dejando el titulo aislado.
+
+Correccion aplicada:
+- Se mantuvo el titulo ligado al bloque siguiente.
+- Se aplico keep_together al parrafo de la tercera imagen.
+- Se redujo proporcionalmente el tercer diagrama al 92% de su tamano original, sin deformarlo.
+- No se modifico el Markdown fuente.
+- No se agregaron ni eliminaron diagramas.
+- Se conservaron exactamente 3 imagenes incrustadas.
+
+Resultado de la segunda exportacion:
+- DOCX: 524846 bytes, SHA256 9B2C798FA737642322EFB2887B28F4AE4D714D55780BCF36D87BA735A3D23D2D
+- PDF: 830922 bytes, SHA256 5527848F3CBFBA73D2C5E632C67FEE18C64507010B4FFA5C371D808125ED98F7
+
+Validacion estructural posterior:
+- Numero de paginas del PDF: 13
+- Parrafos del DOCX: 214
+- Tablas del DOCX: 3
+- Imagenes incrustadas del DOCX: 3
+- Secciones del DOCX: 1
+- Bloques ```mermaid visibles: no
+
+Confirmacion visual posterior:
+- La pagina 9 ahora contiene el titulo del Diagrama C y el inicio del diagrama en la misma pagina.
+- No hay recortes, contenidos fuera de margen ni solapamientos nuevos en ninguna pagina.
+- Los tres diagramas se visualizan completos y legibles.
+
+Inspeccion de paginas del PDF corregido:
+- Pagina 1: correcta.
+- Pagina 2: correcta.
+- Pagina 3: correcta.
+- Pagina 4: correcta.
+- Pagina 5: correcta.
+- Pagina 6: correcta.
+- Pagina 7: correcta.
+- Pagina 8: correcta.
+- Pagina 9: correcta; Diagrama C comienza junto al titulo.
+- Pagina 10: correcta.
+- Pagina 11: correcta.
+- Pagina 12: correcta.
+- Pagina 13: correcta.
+
+Presencia de contenido obligatorio en el PDF corregido:
+- UeesTask.
+- Fase 3.
+- Los cuatro integrantes.
+- Las seis refactorizaciones.
+- Extract Method.
+- Extract Class.
+- Replace Magic Number.
+- Consolidate Conditional.
+- ValidadorDominio.
+- PublicadorEventos.
+- 19 pruebas.
+- 32 pruebas.
+- FastAPI.
+- PostgreSQL.
+- Conclusiones.
+
+Resultado de pruebas:
+- pytest: 32 passed.
+
+Veredicto posterior a la correccion:
+- APROBADO PARA INTEGRAR EN MAIN.

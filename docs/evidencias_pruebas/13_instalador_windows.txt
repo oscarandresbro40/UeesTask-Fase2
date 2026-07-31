@@ -1,0 +1,90 @@
+Nombre: Incorporación del instalador para Windows.
+Aclaración: este cambio incorpora distribución e instalación; no es una refactorización.
+Commit base: 7e0a605.
+Rama: feature/fase3-web.
+
+Archivos incorporados:
+- INICIAR_UEESTASK.bat
+- INSTALAR_REQUISITOS.bat
+- INSTALAR_UEESTASK.bat
+- VERIFICAR_INSTALACION.bat
+- instalar.ps1
+- LEEME_PRIMERO.txt
+- Manual_de_Instalacion_UeesTask_D4.docx
+- Manual_de_Instalacion_UeesTask_D4.pdf
+
+Hash y tamaño de cada archivo:
+- INICIAR_UEESTASK.bat
+  - Tamaño: 573 bytes
+  - SHA256: 43AD459B3178E1AEF7DFE176A28C9A6D4BF46B58221E6C9A2AE1BD4F3A1FF212
+- INSTALAR_REQUISITOS.bat
+  - Tamaño: 643 bytes
+  - SHA256: B51167CE196C400159FC9066A9C9C9B0FD513033BBD7760DC05CB30789505223
+- INSTALAR_UEESTASK.bat
+  - Tamaño: 271 bytes
+  - SHA256: ECD1114DB0401FEB36CD4B4CA2880CEC294A181494D77B032A512D95FAD4397E
+- VERIFICAR_INSTALACION.bat
+  - Tamaño: 700 bytes
+  - SHA256: 34A7DDDB4850EEF63F6FEAF87B4057B49DB5D50F0C5FA51CCA64B67FC2D7A310
+- instalar.ps1
+  - Tamaño: 4693 bytes
+  - SHA256: F9F16C58FB95DA8B32791501AE412135D1F9B0D24431A877F00F5A75EEBF60AF
+- LEEME_PRIMERO.txt
+  - Tamaño: 781 bytes
+  - SHA256: 33FDA53CAF1627BF6F21C02BDFE34479167C97AC355CEBEA7C2520E52B62D362
+- Manual_de_Instalacion_UeesTask_D4.docx
+  - Tamaño: 39410 bytes
+  - SHA256: 3AD52DE8E2D4A9C5AD6DAF4F72E94C9F158A0D5219D730047944106C71538C48
+- Manual_de_Instalacion_UeesTask_D4.pdf
+  - Tamaño: 380301 bytes
+  - SHA256: EF22E44FE8C9CCA5E1B9B5613BFE4D8BB14A801E85B65C755C2D13395F2B78F2
+
+Análisis sintáctico de instalar.ps1:
+- Errores PowerShell: 0
+
+Referencias verificadas:
+- INICIAR_UEESTASK.bat usa docker compose up -d db.
+- INICIAR_UEESTASK.bat usa app.final:app.
+- INSTALAR_UEESTASK.bat invoca instalar.ps1.
+- VERIFICAR_INSTALACION.bat ejecuta pytest.
+- instalar.ps1 usa database\ueestask_demo_d4.dump.
+- instalar.ps1 ejecuta alembic upgrade head.
+- instalar.ps1 ejecuta pytest.
+- instalar.ps1 crea acceso directo a INICIAR_UEESTASK.bat.
+
+Requisitos internos del instalador verificados en repositorio:
+- requirements.txt: existe.
+- docker-compose.yml: existe.
+- alembic.ini: existe.
+- database/ueestask_demo_d4.dump: existe.
+- app/final.py: existe.
+- tests/test_advanced_rules.py: existe.
+
+Integridad de manuales como archivos:
+- DOCX válido: True.
+- Cabecera PDF: %PDF-.
+
+Resultado total de pruebas:
+- 32 passed, 1 warning.
+
+Confirmaciones operativas:
+- Los instaladores no fueron ejecutados.
+- Docker y PostgreSQL no fueron iniciados en este paso.
+- El dump no fue restaurado.
+- Los seeds no fueron ejecutados.
+- No se copiaron archivos de uploads/entregas.
+- El proyecto fuente no fue modificado.
+
+Nota sobre README.md:
+- README.md fue pospuesto porque contiene referencias a INICIAR_APP.bat y C:\tmp\ueestask-venv; se corregirá en el commit final de documentación.
+
+Alcance del commit:
+- INICIAR_UEESTASK.bat
+- INSTALAR_REQUISITOS.bat
+- INSTALAR_UEESTASK.bat
+- VERIFICAR_INSTALACION.bat
+- instalar.ps1
+- LEEME_PRIMERO.txt
+- Manual_de_Instalacion_UeesTask_D4.docx
+- Manual_de_Instalacion_UeesTask_D4.pdf
+- docs/evidencias_pruebas/13_instalador_windows.txt

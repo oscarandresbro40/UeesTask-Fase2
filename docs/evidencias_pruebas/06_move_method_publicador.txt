@@ -1,0 +1,54 @@
+Nombre: Refactorizacion 6 - Move Method / PublicadorEventos.
+Mal olor corregido: Mixed Responsibilities.
+Clase creada: PublicadorEventos.
+Archivo creado: app/notifications/publicador_eventos.py.
+
+Responsabilidad movida:
+Se movio el registro del observador y la publicacion de eventos desde los gestores hacia PublicadorEventos.
+
+Descripcion del antes:
+- GestorTareas invocaba directamente tarea.agregar_observador(...) y tarea.notificar_observadores(...).
+- GestorEntregas invocaba directamente entrega.agregar_observador(...) y entrega.notificar_observadores(...).
+- GestorCalificaciones comprobaba/agregaba observador y llamaba directamente entrega.notificar_observadores(...).
+
+Descripcion del despues:
+- GestorTareas, GestorEntregas y GestorCalificaciones delegan la publicacion en PublicadorEventos.publicar(...).
+- PublicadorEventos encapsula agregar_observador(...) y notificar_observadores(...).
+
+Metodos directos del patron Observer que antes invocaban los gestores:
+- agregar_observador(...)
+- notificar_observadores(...)
+
+Delegacion actual:
+- Los gestores mantienen sus casos de uso y persistencia.
+- Luego de persistir, solicitan a PublicadorEventos publicar el evento con los mismos datos.
+
+Eventos preservados:
+- TAREA_CREADA
+- ENTREGA_REGISTRADA
+- ENTREGA_CALIFICADA
+
+Datos preservados por evento:
+- TAREA_CREADA: titulo, fecha_entrega, destinatario.
+- ENTREGA_REGISTRADA: archivo, destinatario.
+- ENTREGA_CALIFICADA: nota, retroalimentacion, destinatario.
+
+Confirmaciones de duplicados:
+- No se duplican observadores: la llamada repetida a agregar_observador es segura porque Tarea y Entrega evitan duplicados.
+- No se duplican notificaciones: main.py sigue generando exactamente tres notificaciones.
+
+Resultado de pytest antes: 19 passed.
+Resultado de pytest despues: 19 passed.
+
+Resultado de main.py:
+- CU-04 crea la tarea.
+- CU-07 registra la entrega.
+- CU-08 califica la entrega con 95/100.
+- Se imprimen exactamente tres notificaciones.
+
+Confirmaciones de alcance funcional:
+- No cambiaron pruebas.
+- No cambiaron modelos.
+- No cambiaron repositorios.
+- No cambiaron reglas de negocio.
+- No se modificaron las interfaces publicas de los tres casos de uso en GestorTareas.

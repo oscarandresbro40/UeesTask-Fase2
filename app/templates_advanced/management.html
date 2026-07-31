@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Gestión | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Configuración académica</p><h1>Gestión</h1><p class="muted">Actualiza estados y datos sin eliminar el historial.</p></div>
+</div>
+{% if user.role.value == "ADMIN" %}
+<section class="management-section">
+  <h2>Usuarios</h2>
+  <div class="management-grid">
+  {% for item in users %}
+    <details class="panel manage-card">
+      <summary>
+        <div><strong>{{ item.full_name }}</strong><small>{{ item.email }} · {{ item.role.value }}</small></div>
+        <span class="state {{ 'on' if item.is_active else 'off' }}">{{ "Activo" if item.is_active else "Inactivo" }}</span>
+      </summary>
+      <form method="post" action="/usuarios/{{ item.id }}/editar" class="form-grid compact">
+        <label>Nombres<input name="first_name" value="{{ item.first_name }}" required></label>
+        <label>Apellidos<input name="last_name" value="{{ item.last_name }}" required></label>
+        <label class="wide">Correo<input type="email" name="email" value="{{ item.email }}" required></label>
+        <label>Especialidad<input name="specialty" value="{{ item.specialty or '' }}"></label>
+        <label>Matrícula<input name="student_number" value="{{ item.student_number or '' }}"></label>
+        <label class="wide">Carrera<input name="program" value="{{ item.program or '' }}"></label>
+        <button class="primary" type="submit">Guardar cambios</button>
+      </form>
+      <form method="post" action="/usuarios/{{ item.id }}/estado">
+        <button class="danger-outline" type="submit">{{ "Desactivar" if item.is_active else "Activar" }} usuario</button>
+      </form>
+    </details>
+  {% endfor %}
+  </div>
+</section>
+{% endif %}
+<section class="management-section">
+  <h2>Cursos y tareas</h2>
+  <div class="management-grid">
+  {% for course in courses %}
+    <article class="panel manage-course">
+      <div class="manage-head">
+        <div><strong>{{ course.name }}</strong><small>{{ course.code }} · {{ course.period }}</small></div>
+        <span class="state {{ 'on' if course.is_active else 'off' }}">{{ "Activo" if course.is_active else "Cerrado" }}</span>
+      </div>
+      {% if user.role.value == "ADMIN" %}
+      <form method="post" action="/cursos/{{ course.id }}/estado">
+        <button class="secondary" type="submit">{{ "Cerrar" if course.is_active else "Reabrir" }} curso</button>
+      </form>
+      <h3>Estudiantes</h3>
+      {% for enrollment in course.enrollments %}
+      <div class="manage-row"><span>{{ enrollment.student.full_name }}</span><form method="post" action="/cursos/{{ course.id }}/matriculas/{{ enrollment.student_id }}/retirar"><button class="link-danger" type="submit">Retirar</button></form></div>
+      {% else %}<p class="muted">Sin estudiantes matriculados.</p>{% endfor %}
+      {% endif %}
+      {% if user.role.value == "DOCENTE" %}
+      <h3>Tareas</h3>
+      {% for task in course.tasks %}
+      <details class="task-manage">
+        <summary><span>{{ task.title }}</span><span class="state {{ 'on' if task.status.value == 'PUBLICADA' else 'off' }}">{{ task.status.value }}</span></summary>
+        <form method="post" action="/tareas/{{ task.id }}/editar" class="form-grid compact">
+          <label class="wide">Título<input name="title" value="{{ task.title }}" required></label>
+          <label class="wide">Descripción<textarea name="description" required>{{ task.description }}</textarea></label>
+          <label>Fecha límite<input type="datetime-local" name="due_at" value="{{ task.due_at.strftime('%Y-%m-%dT%H:%M') }}" required></label>
+          <label>Ponderación<input type="number" name="weight" min="1" max="100" step=".01" value="{{ task.weight }}" required></label>
+          <button class="primary" type="submit">Actualizar</button>
+        </form>
+        <form method="post" action="/tareas/{{ task.id }}/estado"><button class="danger-outline" type="submit">{{ "Cerrar" if task.status.value == "PUBLICADA" else "Reabrir" }} tarea</button></form>
+      </details>
+      {% else %}<p class="muted">Sin tareas.</p>{% endfor %}
+      {% endif %}
+    </article>
+  {% else %}<article class="panel empty-state">No hay cursos para gestionar.</article>{% endfor %}
+  </div>
+</section>
+{% endblock %}

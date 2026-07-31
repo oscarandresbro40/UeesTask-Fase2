@@ -1,0 +1,69 @@
+Nombre: Refactorizacion 5 - Extract Validator.
+Mal olor corregido: Duplicate Code.
+Clase creada: ValidadorDominio.
+
+Archivos modificados:
+- app/services/gestor_tareas.py
+- app/services/gestor_entregas.py
+- app/services/gestor_calificaciones.py
+- app/utils/validador_dominio.py
+
+Metodos creados en ValidadorDominio:
+- requerido(valor, mensaje)
+- identificador_positivo(valor, mensaje)
+- texto_requerido(valor, mensaje)
+- fecha_futura(valor, mensaje)
+- longitud_maxima(valor, maximo, mensaje)
+
+Validaciones reemplazadas por servicio:
+- gestor_tareas.py:
+  - docente requerido
+  - curso_id identificador positivo
+  - titulo texto requerido
+  - descripcion texto requerido
+  - fecha_entrega requerida
+  - fecha_entrega futura
+  - ponderacion requerida
+  - Se mantiene en el servicio la validacion de rango de ponderacion y su mensaje.
+- gestor_entregas.py:
+  - estudiante requerido
+  - tarea_id identificador positivo
+  - archivo texto requerido
+  - Se mantiene sin cambios la normalizacion de comentario, repositorio, matricula, vencimiento, duplicidad, persistencia y notificacion.
+- gestor_calificaciones.py:
+  - docente requerido
+  - entrega_id identificador positivo
+  - longitud maxima de retroalimentacion
+  - Se mantiene intacta la condicion consolidada de nota de la refactorizacion 4.
+
+Antes y despues:
+- Antes: cada servicio repetia validaciones de requerido, identificador positivo, texto requerido y longitud maxima con condicionales locales.
+- Despues: esas validaciones comunes se centralizan en ValidadorDominio y los servicios solo invocan sus metodos.
+
+Confirmacion de reglas y mensajes:
+- Las reglas de negocio no cambiaron.
+- Se conservaron los mensajes de error existentes.
+
+Conservacion especial de fecha_entrega:
+- Se mantuvieron separados los dos errores:
+  - Si fecha_entrega es None: "La fecha de entrega es obligatoria".
+  - Si fecha_entrega no es futura: "La fecha de entrega debe ser futura".
+- Esto se conserva llamando primero a requerido(...) y luego a fecha_futura(...).
+
+Condicion consolidada de nota:
+- Se mantiene la condicion consolidada de nota con los mismos mensajes:
+  - "La nota es obligatoria"
+  - "La nota debe estar entre 0 y 100"
+
+pytest antes: 19 passed.
+pytest despues: 19 passed.
+
+Resultado de main.py:
+- CU-04: Tarea creada: Implementacion de casos de uso.
+- CU-07: Entrega registrada: fase2_grupo.zip.
+- CU-08: Entrega calificada: 95/100.
+- Se generaron notificaciones para tarea creada, entrega registrada y entrega calificada.
+
+Confirmaciones finales:
+- No se modificaron pruebas.
+- No cambiaron interfaces publicas.

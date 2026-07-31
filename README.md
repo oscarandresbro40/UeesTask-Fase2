@@ -1,56 +1,102 @@
-# UeesTask — Fase 2
+# UeesTask
 
-Implementación funcional mínima de los tres casos de uso definidos en la Fase 1:
+Plataforma web para seguimiento de tareas academicas con notificaciones.
 
-- CU-04 Crear tarea
-- CU-07 Entregar tarea
-- CU-08 Calificar entrega
+## Dominio
+- D4
 
-## Tecnologías
+## Objetivo
+Gestionar el ciclo academico de tareas en cursos universitarios: publicacion de actividades, entregas, calificacion, notificaciones y controles administrativos.
 
-- Python 3.10 o superior
-- Programación orientada a objetos
-- Arquitectura por capas
-- Patrón Observer
-- Persistencia temporal en memoria
+## Funcionalidades principales
+- Autenticacion y sesion web.
+- Paneles por rol (administrador, docente, estudiante).
+- Gestion de usuarios.
+- Gestion de cursos y matriculas.
+- Gestion de tareas y recursos.
+- Registro de entregas.
+- Calificaciones y retroalimentacion.
+- Notificaciones.
+- Gestion avanzada (edicion/estado de usuarios, cursos y tareas).
+- Reglas academicas a nivel de sesion SQLAlchemy.
 
-## Instalación
+## Tecnologias reales
+- Python
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- Alembic
+- Jinja2
+- pytest
+- Docker Compose
 
-```bash
-python -m pip install -r requirements.txt
+## Estructura actual del repositorio
+- app/: aplicacion web y dominio de negocio.
+- migrations/: migraciones Alembic.
+- tests/: pruebas automatizadas.
+- database/: respaldo de datos demostrativos.
+- docs/: evidencias y documentacion tecnica.
+- uploads/: almacenamiento local de archivos.
+
+## Requisitos
+- Windows
+- Python 3.12 o posterior
+- Docker Desktop
+
+## Instalacion para usuario
+1. Ejecutar INSTALAR_REQUISITOS.bat solo si faltan requisitos del entorno.
+2. Ejecutar INSTALAR_UEESTASK.bat.
+3. Ejecutar INICIAR_UEESTASK.bat.
+4. Abrir http://localhost:8000.
+
+## Instalacion manual para desarrollo
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+docker compose up -d db
+.\.venv\Scripts\python.exe -m alembic upgrade head
+.\.venv\Scripts\python.exe -m pytest
+.\.venv\Scripts\python.exe -m uvicorn app.final:app --reload
 ```
 
-## Ejecución
+## Entry point oficial
+- app.final:app
 
-```bash
-python main.py
+## Ejecucion de pruebas
+```powershell
+.\.venv\Scripts\python.exe -m pytest
 ```
+Resultado actual: 32 passed.
 
-## Pruebas
+## Cuentas demostrativas
+Credenciales solo para uso local de demostracion academica.
+- admin@uees.edu.ec / Admin123!
+- docente@uees.edu.ec / Docente123!
+- estudiante@uees.edu.ec / Estudiante123!
 
-```bash
-python -m pytest
-```
+## Base de datos demostrativa
+- Archivo: database/ueestask_demo_d4.dump
+- Uso: datos de demostracion reproducibles para entorno local.
 
-## Estructura
+## Reglas de negocio finales
+- La suma de ponderaciones de tareas por curso no puede superar 100%.
+- No se aceptan entregas cuando la tarea esta cerrada.
+- Las reglas se aplican en before_flush de SQLAlchemy (app.final).
 
-```text
-UeesTask_Fase2/
-├── app/
-│   ├── controllers/
-│   ├── models/
-│   ├── notifications/
-│   ├── repositories/
-│   ├── services/
-│   └── utils/
-├── database/
-├── docs/
-├── tests/
-├── main.py
-├── requirements.txt
-└── pytest.ini
-```
+## Historial de refactorizacion
+- Tag de linea base: fase2-final
+- Tag de checkpoint refactorizado: fase3-refactor-domain
+- Rama de refactorizacion: refactor/fase3-domain
+- Rama de evolucion web: feature/fase3-web
 
-## Nota académica
+## Informe tecnico
+- docs/Informe_Final_Fase3_UeesTask.md
 
-Esta versión corresponde al código base de la Fase 2. Incluye algunos malos olores controlados que serán documentados en el informe de diagnóstico y corregidos en la siguiente fase de refactorización.
+## Repositorio
+- https://github.com/oscarandresbro40/UeesTask-Fase2
+
+## Nota de seguridad
+- No usar contrasenas demostrativas en produccion.
+- Configurar secretos y conexion mediante variables de entorno.
+- Proyecto academico: no se declara listo para produccion.

@@ -1,0 +1,37 @@
+:root {
+  --purple: #8f123a;
+  --purple-dark: #5f0c28;
+  --purple-soft: #f9e9ef;
+  --muted: #6f7075;
+}
+.brand-panel {
+  background:
+    radial-gradient(circle at 12% 12%, #b6325d, transparent 36%),
+    linear-gradient(145deg, #8f123a, #51091f);
+}
+.lead { color: #f7e4eb; }
+.feature-row { color: #fbeaf0; }
+.demo-box {
+  background: #fbf3f6;
+  border-left: 3px solid var(--purple);
+}
+nav a { color: #f0d7e0; }
+.login-card button {
+  background: linear-gradient(135deg, #9f1744, #7b0f32);
+  box-shadow: 0 8px 18px rgba(143, 18, 58, .22);
+}
+.login-card button:hover { background: #760d30; }
+.brand-mark,
+.logo span {
+  color: #8f123a;
+  border: 1px solid rgba(143, 18, 58, .12);
+}
+.avatar,
+.course-icon {
+  color: #8f123a;
+  background: #f9e9ef;
+}
+.badge {
+  color: #7b0f32;
+  background: #f9e9ef;
+}

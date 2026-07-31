@@ -1,0 +1,69 @@
+Nombre: Incorporacion de flujos academicos web.
+Aclaracion: este cambio incorpora funcionalidad web; no es una refactorizacion.
+Commit base: 1893a7a.
+
+Archivos incorporados:
+- app/full.py
+- app/templates_full/base.html
+- app/templates_full/courses.html
+- app/templates_full/dashboard.html
+- app/templates_full/notifications.html
+- app/templates_full/submissions.html
+- app/templates_full/tasks.html
+- app/templates_full/users.html
+- app/static/css/full.css
+- tests/test_workflows.py
+- tests/test_http_workflow.py
+
+Casos de uso cubiertos:
+- Gestion de usuarios.
+- Gestion de cursos.
+- Matricula de estudiantes.
+- Creacion de tareas.
+- Carga y descarga de recursos.
+- Registro de entregas.
+- Descarga de entregas.
+- Calificacion y retroalimentacion.
+- Consulta y lectura de notificaciones.
+
+Control de roles:
+- Se mantiene control por roles para ADMIN, TEACHER y STUDENT en los flujos web.
+
+Resultados de pruebas:
+- tests/test_workflows.py: 3 passed.
+- tests/test_http_workflow.py: 1 passed.
+- pytest total: 7 passed.
+
+Rutas registradas en app.full:
+- /
+- /cursos
+- /cursos/{course_id}/matriculas
+- /docs
+- /docs/oauth2-redirect
+- /entregas
+- /entregas/{submission_id}/archivo
+- /entregas/{submission_id}/calificar
+- /login
+- /logout
+- /notificaciones
+- /notificaciones/leer
+- /openapi.json
+- /panel
+- /recursos/{resource_id}/archivo
+- /redoc
+- /salud
+- /static
+- /tareas
+- /tareas/{task_id}/entregar
+- /usuarios
+
+Confirmacion de integridad de copia:
+- Se compararon hashes SHA256 de las 11 parejas fuente/destino.
+- Todas resultaron identicas (OK).
+
+Entorno de pruebas:
+- Las pruebas ejecutadas usan SQLite temporal para validaciones de flujo.
+
+Confirmaciones:
+- No se modifico codigo existente; solo se copiaron archivos autorizados.
+- No se copiaron modulos avanzados (advanced.py ni final.py) ni templates_advanced.
