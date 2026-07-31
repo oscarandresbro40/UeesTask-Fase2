@@ -1,0 +1,27 @@
+UEESTASK — PAQUETE DE INSTALACIÓN D4
+
+1. Descomprima por completo el archivo ZIP.
+2. Instale previamente:
+   - Docker Desktop.
+   - Python 3.12 o posterior, agregado al PATH.
+3. Haga doble clic en INSTALAR_UEESTASK.bat.
+4. Cuando finalice, use INICIAR_UEESTASK.bat o el acceso directo.
+5. Abra http://localhost:8000.
+
+La primera instalación restaura automáticamente la base demostrativa:
+- 11 usuarios
+- 4 cursos
+- 12 matrículas
+- 5 tareas
+- 21 entregas
+- 57 notificaciones
+
+El instalador no sobrescribe una base existente.
+
+Cuentas principales:
+- admin@uees.edu.ec / Admin123!
+- docente@uees.edu.ec / Docente123!
+- estudiante@uees.edu.ec / Estudiante123!
+
+Los nombres D4, correos example.test, matrículas, archivos y notas son
+datos demostrativos para pruebas académicas.
