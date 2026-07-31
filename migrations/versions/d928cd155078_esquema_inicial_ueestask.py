@@ -1,7 +1,7 @@
 """esquema inicial ueestask
 
 Revision ID: d928cd155078
-Revises: 
+Revises:
 Create Date: 2026-07-25 17:57:29.146606
 """
 from typing import Sequence, Union
