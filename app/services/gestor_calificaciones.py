@@ -25,10 +25,14 @@ class GestorCalificaciones:
             raise ValueError("El docente es obligatorio")
         if entrega_id is None or entrega_id <= 0:
             raise ValueError("El identificador de la entrega no es válido")
-        if nota is None:
-            raise ValueError("La nota es obligatoria")
-        if nota < NOTA_MINIMA or nota > NOTA_MAXIMA:
-            raise ValueError("La nota debe estar entre 0 y 100")
+        nota_invalida = nota is None or not NOTA_MINIMA <= nota <= NOTA_MAXIMA
+        if nota_invalida:
+            mensaje = (
+                "La nota es obligatoria"
+                if nota is None
+                else "La nota debe estar entre 0 y 100"
+            )
+            raise ValueError(mensaje)
         if retroalimentacion is None:
             retroalimentacion = ""
         if len(retroalimentacion) > MAX_CARACTERES_RETROALIMENTACION:
