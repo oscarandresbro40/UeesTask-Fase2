@@ -27,7 +27,31 @@ class GestorTareas:
         Valida datos obligatorios, fecha futura, ponderación y autorización del
         docente; luego guarda la tarea y notifica a los estudiantes del curso.
         """
-        # Código base deliberadamente extenso para el diagnóstico de Fase 2.
+        self._validar_datos_tarea(
+            docente, curso_id, titulo, descripcion, fecha_entrega, ponderacion
+        )
+        curso = self._obtener_curso_del_docente(curso_id, docente)
+        tarea = self._construir_tarea(
+            docente,
+            curso_id,
+            titulo,
+            descripcion,
+            fecha_entrega,
+            ponderacion,
+            recursos,
+        )
+        self._guardar_y_notificar_tarea(tarea, curso.id_curso)
+        return tarea
+
+    def _validar_datos_tarea(
+        self,
+        docente: Docente,
+        curso_id: int,
+        titulo: str,
+        descripcion: str,
+        fecha_entrega: datetime,
+        ponderacion: float,
+    ) -> None:
         if docente is None:
             raise ValueError("El docente es obligatorio")
         if curso_id is None or curso_id <= 0:
@@ -45,12 +69,24 @@ class GestorTareas:
         if ponderacion <= 0 or ponderacion > 100:
             raise ValueError("La ponderación debe estar entre 1 y 100")
 
+    def _obtener_curso_del_docente(self, curso_id: int, docente: Docente):
         curso = self.repositorio.obtener_curso(curso_id)
         if curso is None:
             raise LookupError("El curso no existe")
         if curso.docente_id != docente.id_usuario:
             raise PermissionError("El docente no está asignado al curso")
+        return curso
 
+    def _construir_tarea(
+        self,
+        docente: Docente,
+        curso_id: int,
+        titulo: str,
+        descripcion: str,
+        fecha_entrega: datetime,
+        ponderacion: float,
+        recursos: list[str] | None,
+    ) -> Tarea:
         tarea = Tarea(
             id_tarea=self.siguiente_tarea_id,
             titulo=titulo.strip(),
@@ -62,7 +98,9 @@ class GestorTareas:
             recursos=recursos or [],
         )
         self.siguiente_tarea_id += 1
+        return tarea
 
+    def _guardar_y_notificar_tarea(self, tarea: Tarea, curso_id: int) -> None:
         tarea.agregar_observador(self.servicio_notificaciones)
         self.repositorio.guardar_tarea(tarea)
         tarea.notificar_observadores(
@@ -70,10 +108,9 @@ class GestorTareas:
             {
                 "titulo": tarea.titulo,
                 "fecha_entrega": tarea.fecha_entrega.strftime("%Y-%m-%d %H:%M"),
-                "destinatario": f"curso-{curso.id_curso}",
+                "destinatario": f"curso-{curso_id}",
             },
         )
-        return tarea
 
     def entregar_tarea(
         self,
