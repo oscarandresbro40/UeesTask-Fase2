@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Cursos | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Gestión académica</p><h1>Cursos</h1><p class="muted">Cursos y estudiantes matriculados.</p></div>
+</div>
+{% if user.role.value == "ADMIN" %}
+<article class="panel form-panel spaced">
+  <h2>Crear curso</h2>
+  <form method="post" action="/cursos" class="form-grid three">
+    <label>Código<input name="code" placeholder="DSW-2026-II" required></label>
+    <label>Nombre<input name="name" required></label>
+    <label>Período<input name="period" placeholder="2026-II" required></label>
+    <label class="wide-two">Descripción<textarea name="description" rows="2"></textarea></label>
+    <label>Docente
+      <select name="teacher_id" required>
+        {% for teacher in teachers %}<option value="{{ teacher.id }}">{{ teacher.full_name }}</option>{% endfor %}
+      </select>
+    </label>
+    <button class="primary" type="submit">Crear curso</button>
+  </form>
+</article>
+{% endif %}
+<section class="card-grid">
+{% for course in courses %}
+  <article class="panel course-card">
+    <div class="course-card-head"><span class="course-icon">{{ course.code[:2] }}</span><span class="badge">{{ course.period }}</span></div>
+    <h2>{{ course.name }}</h2><p class="muted">{{ course.code }}</p>
+    <p>{{ course.description or "Sin descripción." }}</p>
+    <div class="meta"><span>Docente</span><strong>{{ course.teacher.full_name }}</strong></div>
+    <div class="meta"><span>Matriculados</span><strong>{{ course.enrollments|length }}</strong></div>
+    {% if user.role.value == "ADMIN" %}
+    <form method="post" action="/cursos/{{ course.id }}/matriculas" class="inline-form">
+      <select name="student_id" required>
+        {% for student in students %}<option value="{{ student.id }}">{{ student.full_name }}</option>{% endfor %}
+      </select>
+      <button class="secondary" type="submit">Matricular</button>
+    </form>
+    {% endif %}
+  </article>
+{% else %}<article class="panel empty-state">No hay cursos disponibles.</article>{% endfor %}
+</section>
+{% endblock %}

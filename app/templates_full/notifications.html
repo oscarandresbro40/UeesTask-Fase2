@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Notificaciones | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading action-heading">
+  <div><p class="eyebrow purple">Actualizaciones</p><h1>Notificaciones</h1><p class="muted">Eventos relacionados con tus cursos y tareas.</p></div>
+  <form method="post" action="/notificaciones/leer"><button class="secondary" type="submit">Marcar todas como leídas</button></form>
+</div>
+<section class="notification-list panel">
+{% for notification in notifications %}
+  <article class="notification {{ 'unread' if not notification.read_at else '' }}">
+    <div class="notification-dot"></div>
+    <div><strong>{{ notification.title }}</strong><p>{{ notification.message }}</p><small>{{ notification.created_at.strftime('%d/%m/%Y %H:%M') }}</small></div>
+  </article>
+{% else %}<div class="empty-state">No tienes notificaciones.</div>{% endfor %}
+</section>
+{% endblock %}

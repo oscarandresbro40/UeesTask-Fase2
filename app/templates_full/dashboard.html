@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Panel | UeesTask{% endblock %}
+{% block app_content %}
+<header>
+  <div>
+    <p class="eyebrow purple">{{ user.role.value }}</p>
+    <h1>Hola, {{ user.first_name }}</h1>
+    <p class="muted">Aquí tienes el resumen de tu actividad académica.</p>
+  </div>
+  <div class="avatar">{{ user.first_name[0] }}{{ user.last_name[0] }}</div>
+</header>
+<section class="stats">
+  {% for label, value in stats %}
+  <article><span>{{ label }}</span><strong>{{ value }}</strong></article>
+  {% endfor %}
+</section>
+<section class="content-grid">
+  <article class="panel">
+    <div class="panel-title"><h2>Cursos</h2><a href="/cursos">Ver todos</a></div>
+    {% if courses %}
+      {% for course in courses %}
+      <div class="course-item">
+        <div class="course-icon">{{ course.code[:2] }}</div>
+        <div><strong>{{ course.name }}</strong><small>{{ course.code }} · {{ course.period }}</small></div>
+      </div>
+      {% endfor %}
+    {% else %}<p class="empty">Todavía no hay cursos para mostrar.</p>{% endif %}
+  </article>
+  <article class="panel">
+    <div class="panel-title"><h2>Actividad reciente</h2><a href="/tareas">Abrir tareas</a></div>
+    {% if tasks %}
+      {% for task in tasks[:5] %}
+      <div class="task-item">
+        <div><strong>{{ task.title }}</strong><small>Entrega: {{ task.due_at.strftime('%d/%m/%Y %H:%M') }}</small></div>
+        <span class="badge">{{ task.status.value }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state"><strong>Todo preparado</strong><p>Las nuevas tareas y entregas aparecerán aquí.</p></div>
+    {% endif %}
+  </article>
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Usuarios | UeesTask{% endblock %}
+{% block app_content %}
+<div class="page-heading">
+  <div><p class="eyebrow purple">Administración</p><h1>Usuarios</h1><p class="muted">Crea y consulta las cuentas del sistema.</p></div>
+</div>
+<section class="module-grid">
+  <article class="panel form-panel">
+    <h2>Nuevo usuario</h2>
+    <form method="post" action="/usuarios" class="form-grid">
+      <label>Nombres<input name="first_name" required></label>
+      <label>Apellidos<input name="last_name" required></label>
+      <label class="wide">Correo institucional<input type="email" name="email" required></label>
+      <label>Contraseña<input type="password" name="password" minlength="8" required></label>
+      <label>Rol
+        <select name="role" required>
+          <option value="ADMIN">Administrador</option>
+          <option value="DOCENTE">Docente</option>
+          <option value="ESTUDIANTE">Estudiante</option>
+        </select>
+      </label>
+      <label>Especialidad<input name="specialty"></label>
+      <label>Matrícula<input name="student_number"></label>
+      <label class="wide">Carrera<input name="program"></label>
+      <button class="primary wide" type="submit">Crear usuario</button>
+    </form>
+  </article>
+  <article class="panel">
+    <div class="panel-title"><h2>Usuarios registrados</h2><span>{{ users|length }}</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Usuario</th><th>Rol</th><th>Correo</th><th>Estado</th></tr></thead>
+        <tbody>
+        {% for item in users %}
+          <tr><td><strong>{{ item.full_name }}</strong></td><td><span class="badge">{{ item.role.value }}</span></td><td>{{ item.email }}</td><td>{{ "Activo" if item.is_active else "Inactivo" }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+{% endblock %}
